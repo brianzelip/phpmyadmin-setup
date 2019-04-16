@@ -181,7 +181,7 @@ phpinfo();
 ?>
 ```
 
-info.php is now accessible via http://45.55.39.12/info.php.
+info.php is now accessible via [http://45.55.39.12/info.php](http://45.55.39.12/info.php).
 
 Now delete info.php to deny this information to crackers!
 
@@ -256,3 +256,9 @@ sudo apache2ctl configtest
 # Restart Apache to implement your changes:
 sudo systemctl restart apache2
 ```
+
+**UPDATE**: SHIT WORKS!
+
+![screenshot of initial bmoregoods.com rendered as part of this work](https://i.imgur.com/jiPs5c2.png)
+
+The virtual hosts file tutorial lists a section at the end that is useful for general learning about Apache. Including it in this repo for later reading, see about-apache.md herein.
