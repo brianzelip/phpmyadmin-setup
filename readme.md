@@ -212,7 +212,7 @@ sudo chown -R $USER:$USER /var/www/bmoregoods.com/html
 sudo chmod -R 755 /var/www/bmoregoods.com/
 
 # create simple index.html page
-nano /var/www/example.com/html/index.html
+nano /var/www/bmoregoods.com/html/index.html
 
 
 
