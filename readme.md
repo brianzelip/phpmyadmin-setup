@@ -313,3 +313,5 @@ sudo certbot renew --dry-run
 Everything relating to renewing the SSL cert should be set up. Here is the tutorial's final about this:
 
 > If you see no errors, you're all set. When necessary, Certbot will renew your certificates and reload Apache to pick up the changes. If the automated renewal process ever fails, Let’s Encrypt will send a message to the email you specified, warning you when your certificate is about to expire.
+
+ps - bmoregoods.com received an A grade form [SSL Labs Server Test](https://www.ssllabs.com/ssltest/)!
