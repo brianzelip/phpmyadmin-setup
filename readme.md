@@ -134,7 +134,7 @@ SELECT user,authentication_string,plugin,host FROM mysql.user;
 /* configure the root account to authenticate with a password,
    run the following ALTER USER command
 */
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY $MYSQL_ALTER_USER_PASSWORD;
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY $MYSQL_ALTER_ROOT_USER_PASSWORD;
 
 -- flush privileges
 FLUSH PRIVILEGES;
@@ -315,3 +315,39 @@ Everything relating to renewing the SSL cert should be set up. Here is the tutor
 > If you see no errors, you're all set. When necessary, Certbot will renew your certificates and reload Apache to pick up the changes. If the automated renewal process ever fails, Let’s Encrypt will send a message to the email you specified, warning you when your certificate is about to expire.
 
 ps - bmoregoods.com received an A grade form [SSL Labs Server Test](https://www.ssllabs.com/ssltest/)!
+
+### 4. Install phpMyAdmin
+
+Main tutorial: [How To Install and Secure phpMyAdmin on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-on-ubuntu-18-04)
+
+4.1. Install packages
+
+```sh
+# install phpmyadmin related packages
+#   see $MYSQL_APPLICATION_PASSWORD_FOR_PHPMYADMIN
+sudo apt install phpmyadmin php-mbstring php-gettext
+
+# explicitly enable the mbstring PHP extension
+sudo phpenmod mbstring
+
+# restart Apache to init changes above
+sudo systemctl restart apache2
+```
+
+4.2. Adjust User Authentication and Privileges
+
+FYI: the ALTER_USER from installing MySQL in section 2.2. above is the user that \*I\* log in with to create new users, so use \$MYSQL_ALTER_ROOT_USER_PASSWORD.
+
+```sql
+# Add user abbie
+CREATE USER 'abbie'@'localhost' IDENTIFIED BY $MYSQL_ABBIE_USER_PASSWORD;
+
+# grant abbie privilege to all tables within the database, as well as the power to add, change, and remove user privileges, with this command
+GRANT ALL PRIVILEGES ON *.* TO 'abbie'@'localhost' WITH GRANT OPTION;
+
+exit
+```
+
+### 5. LOG IN! 🎉
+
+[bmoregoods.com/phpmyadmin](https://bmoregoods.com/phpmyadmin/) 🚢
