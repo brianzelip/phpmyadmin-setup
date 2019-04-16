@@ -213,8 +213,46 @@ sudo chmod -R 755 /var/www/bmoregoods.com/
 
 # create simple index.html page
 nano /var/www/bmoregoods.com/html/index.html
+```
 
+At this point, I cirucumvented the tutorial's chronology, and configured DNS settings to point bmoregoods.com and www.bmoregoods.com to \$IP_ADDRESS. So onto section 3.1.1...
 
+3.1.1. Configure DNS settings for bmoregoods.com
 
+Useful links for this section:
 
+- [How To Point to DigitalOcean Nameservers From Common Domain Registrars](https://www.digitalocean.com/community/tutorials/how-to-point-to-digitalocean-nameservers-from-common-domain-registrars)
+
+- [How to Create DNS Records](https://www.digitalocean.com/docs/networking/dns/how-to/manage-records/) (_very useful for understanding DNS records in general_!)
+
+I set up two A records via the droplet dashboard, instead of an A record and a CNAME record like GoDaddy does it. This is becuase the tutorial "How To Secure Apache with Let's Encrypt on Ubuntu 18.04" lists a preqrequisite of:
+
+- An A record with example.com pointing to your server's public IP address.
+- An A record with www.example.com pointing to your server's public IP address.
+
+Here were the DNS steps I took:
+
+1. On GD: disabled the forwarding to bmoregoods.org
+2. On GD: updated the name servers for this domain (from GD to DO name servers)
+3. Added 2 new A records to the droplet via the droplet dashboard
+
+3.1.2 Now back to configuring the new virtual hosts file
+
+```sh
+# Instead of modifying the default configuration, create a new
+# virtual host file with the correct directives.
+# (see tutorial for virtual host file content)
+sudo nano /etc/apache2/sites-available/bmoregoods.com.conf
+
+# Let's enable the file with the a2ensite tool:
+sudo a2ensite bmoregoods.com.conf
+
+# Disable the default site defined in 000-default.conf:
+sudo a2dissite 000-default.conf
+
+# Next, let's test for configuration errors:
+sudo apache2ctl configtest
+
+# Restart Apache to implement your changes:
+sudo systemctl restart apache2
 ```
