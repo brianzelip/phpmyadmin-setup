@@ -262,3 +262,54 @@ sudo systemctl restart apache2
 ![screenshot of initial bmoregoods.com rendered as part of this work](https://i.imgur.com/jiPs5c2.png)
 
 The virtual hosts file tutorial lists a section at the end that is useful for general learning about Apache. Including it in this repo for later reading, see about-apache.md herein.
+
+3.2. Install and configure certbot
+
+Now, after the virtual host file and DNS pivots above, we're back on track for setting up https, so back to the "How To Secure Apache with Let's Encrypt on Ubuntu 18.04" tutorial.
+
+```sh
+# add certbot repo specifically made for Ubuntu, via certbot maintainers
+sudo add-apt-repository ppa:certbot/certbot
+
+# Install Certbot's Apache package with apt:
+sudo apt install python-certbot-apache
+
+# obtain SSL cert
+sudo certbot --apache -d bmoregoods.com -d www.bmoregoods.com
+```
+
+On the interactive script that resulted after the last command above, I chose option 2, which allows redirects from http to https.
+
+It worked, I have now conigured Let's Encrypt 🎉
+
+Here is the confirmation message, which includes an import note about renewal!
+
+> IMPORTANT NOTES:
+>
+> - Congratulations! Your certificate and chain have been saved at:
+>   /etc/letsencrypt/live/bmoregoods.com/fullchain.pem
+>   Your key file has been saved at:
+>   /etc/letsencrypt/live/bmoregoods.com/privkey.pem
+>   **Your cert will expire on 2019-07-15**. To obtain a new or tweaked
+>   version of this certificate in the future, simply run certbot again
+>   with the "certonly" option. To non-interactively renew _all_ of
+>   your certificates, run "certbot renew"
+>
+> - Your account credentials have been saved in your Certbot
+>   configuration directory at /etc/letsencrypt. You should make a
+>   secure backup of this folder now. This configuration directory will
+>   also contain certificates and private keys obtained by Certbot so
+>   making regular backups of this folder is ideal.
+
+**UPDATE on SSL**: ALAS! The next section in the tutorial covers certbot auto renewal!
+
+3.2.1. Verify Certbot auto-renewal
+
+```sh
+# verify certbot auto-renewal via --dry-run
+sudo certbot renew --dry-run
+```
+
+Everything relating to renewing the SSL cert should be set up. Here is the tutorial's final about this:
+
+> If you see no errors, you're all set. When necessary, Certbot will renew your certificates and reload Apache to pick up the changes. If the automated renewal process ever fails, Let’s Encrypt will send a message to the email you specified, warning you when your certificate is about to expire.
