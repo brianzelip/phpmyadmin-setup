@@ -145,7 +145,7 @@ SELECT user,authentication_string,plugin,host FROM mysql.user;
 exit
 ```
 
-2.3 Install PHP
+2.3. Install PHP
 
 ```sh
 # Install PHP and related packages
@@ -187,4 +187,34 @@ Now delete info.php to deny this information to crackers!
 
 ```sh
 sudo rm /var/www/html/info.php
+```
+
+### 3. Set up SSL certificate via Let's Encrypt
+
+Main tutorial: [How To Secure Apache with Let's Encrypt on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-18-04)
+
+Secondary tutorial: [Step 5 - Setting Up Virtual Hosts](https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04#step-5-—-setting-up-virtual-hosts-recommended)
+
+I will use bmoregoods.com for this project.
+
+3.1. Set up virtual hosts file
+
+```sh
+# Create the directory for bmoregoods.com as follows,
+# using the -p flag to create any necessary parent directories:
+sudo mkdir -p /var/www/bmoregoods.com/html
+
+# Next, assign ownership of the directory with the
+# $USER environmental variable:
+sudo chown -R $USER:$USER /var/www/bmoregoods.com/html
+
+# make sure web roots persmissions are correct, even though they still should be
+sudo chmod -R 755 /var/www/bmoregoods.com/
+
+# create simple index.html page
+nano /var/www/example.com/html/index.html
+
+
+
+
 ```
